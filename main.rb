@@ -7,13 +7,11 @@ require './tenant'
 
 building = Building.new("Waterfront Tower", "345 Embarcadero")
 
-$message = ""
-
-def menu
+def menu message
   puts `clear`
   puts "*** Land Lord v1.0 ***\n\n"
 
-  puts "#{$message.color('#ff3300')}\n\n" unless $message.empty?
+  puts "#{message.color('#ff3300')}\n\n" unless message.empty?
 
   puts '1 : Add unit'
   puts '2 : Add tenant'
@@ -26,9 +24,10 @@ def menu
   gets.chomp
 end
 
-
-choice = menu
+message = ""
+choice = menu message
 while choice != 'q'
+  message = ""
   case choice
   when "1"
     puts "Enter unit info:"
@@ -37,38 +36,38 @@ while choice != 'q'
     print "rent:"; rent = gets.chomp
 
     building.units << Unit.new(building, number, sqft, rent)
-    $message = "Added unit #{building.units.last.number}"
+    message = "Added unit #{building.units.last.number}"
   when "2"
     puts "Enter tenant info:"
     print "name:"; name = gets.chomp
     print "phone:"; phone = gets.chomp
     puts "select tenant's new unit:"
-    building.units.each do |unit|
+    building.get_available_units.each do |unit|
       puts "#{unit.number} "
     end
-    print "#:"; number = gets.chomp
-    selected_unit = (building.units.select { |u| u.number == number}).first
+    print "#:"; requested_unit_number = gets.chomp
+    selected_unit = (building.units.select { |unit| unit.number == requested_unit_number}).first
     selected_unit.tenant = Tenant.new(name, phone, selected_unit)
-    $message = "Tenant #{building.units.last.tenant.name} moved into unit #{selected_unit.number}"
+    message = "Tenant #{selected_unit.tenant.name} moved into unit #{selected_unit.number}"
   when "3"
     available_units = building.get_available_units()
-    $message = "Here's a list of all available units:\n"
+    message = "List of unrented units:\n"
     available_units.each do |unit|
-      $message += unit.number + " "
+      message += unit.number + " "
     end
   when "4"
-    $message = "Tenant contact list:\n"
-    $message += building.get_contact_list()
+    message = "Tenant contact list:\n"
+    message += building.get_contact_list()
   when "5"
-    $message = "Total rented sqft:"
+    message = "Total rented sqft:"
     sqft_rented = building.calc_total_sqft_rented()
-    $message += sqft_rented.to_s
+    message += sqft_rented.to_s
   when "6"
-    $message = "Annual income:"
-    total_income = building.calc_total_sqft_rented()
-    $message += total_income.to_s
+    message = "Annual income:"
+    total_income = building.calc_annual_income()
+    message += total_income.to_s
   else
-      "I don't understand ..."
+      message += "I don't understand ..."
   end
-  choice = menu
+  choice = menu message
 end

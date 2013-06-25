@@ -1,7 +1,7 @@
 class Tenant
-  attr_accessor :name, :phone, :lease_end, :unit
+  attr_accessor :name, :phone, :unit
 
-  def initialize(name, phone, unit)
+  def initialize(name, phone, unit = nil)
     @name = name
     @phone = phone
     @unit = unit
