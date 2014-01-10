@@ -9,8 +9,8 @@ class Building
 
   def get_contact_list
     result = @units.inject("") do |contact_list_str, unit|
-      if not unit.available?
-         contact_list_str += "#{unit.tenant.name} p#:#{unit.tenant.phone}"
+      if not unit.vacant?
+         contact_list_str << "#{unit.tenant.name} p#:#{unit.tenant.phone}"
       end
     end
     result || ""
@@ -30,13 +30,13 @@ class Building
 
   def get_available_units
     @units.select do |unit|
-        unit.available?
+        unit.vacant?
     end
   end
 
   def get_rented_units
     return @units.select do |unit|
-      not unit.available?
+      not unit.vacant?
     end
   end
 

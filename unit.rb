@@ -9,7 +9,7 @@ class Unit
     @tenant = tenant
   end
 
-  def available?
+  def vacant?
     @tenant.nil?
   end
 

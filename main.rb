@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'rainbow'
 require './building'
 require './unit'
 require './tenant'
@@ -11,16 +10,16 @@ def menu message
   puts `clear`
   puts "*** Land Lord v1.0 ***\n\n"
 
-  puts "#{message.color('#ff3300')}\n\n" unless message.empty?
+  puts "#{message}\n\n" unless message.empty?
 
   puts '1 : Add unit'
   puts '2 : Add tenant'
-  puts '3 : Show all unrented units'
+  puts '3 : Show vacant units'
   puts '4 : Show tenant contacts'
   puts '5 : Show total rented sqft'
   puts '6 : Cha-ching! Show my annual income'
   puts "q : Quit\n\n"
-  print '--> '.color('#ff3300')
+  print '--> '
   gets.chomp
 end
 
@@ -51,7 +50,7 @@ while choice != 'q'
     message = "Tenant #{selected_unit.tenant.name} moved into unit #{selected_unit.number}"
   when "3"
     available_units = building.get_available_units()
-    message = "List of unrented units:\n"
+    message = "List of vacant units:\n"
     available_units.each do |unit|
       message += unit.number + " "
     end
