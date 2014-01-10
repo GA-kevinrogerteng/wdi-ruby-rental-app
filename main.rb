@@ -28,7 +28,7 @@ while choice != 'q'
   case choice
   when "1"
     puts "Enter unit info:"
-    print "#:"; number = gets.chomp
+    print "unit #:"; number = gets.chomp
     print "sqft:"; sqft = gets.chomp
     print "rent:"; rent = gets.chomp
 
