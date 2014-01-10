@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 require './building'
 require './unit'
 require './tenant'
